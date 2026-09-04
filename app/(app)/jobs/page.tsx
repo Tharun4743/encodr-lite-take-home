@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createJobSchema, type CreateJobInput } from "@/lib/schemas";
@@ -10,8 +11,10 @@ import { ApiError } from "@/lib/client/api";
 import { StatusBadge } from "@/components/status-badge";
 
 export default function JobsPage() {
+  const router = useRouter();
   const jobs = useJobs();
   const createJob = useCreateJob();
+  const [autoStart, setAutoStart] = useState(true);
   const [formError, setFormError] = useState<string | null>(null);
 
   const {
@@ -31,8 +34,11 @@ export default function JobsPage() {
   const onSubmit = handleSubmit(async (values) => {
     setFormError(null);
     try {
-      await createJob.mutateAsync(values);
+      const created = await createJob.mutateAsync(values);
       reset({ sourceUrl: "", title: "" });
+      if (autoStart && created?.id) {
+        router.push(`/jobs/${created.id}?autostart=1`);
+      }
     } catch (err) {
       if (err instanceof ApiError && err.fieldErrors) {
         for (const [field, messages] of Object.entries(err.fieldErrors)) {
@@ -184,10 +190,17 @@ export default function JobsPage() {
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-1">
-            <p className="text-[11px] text-zinc-400">
-              Tip: Use <span className="font-mono text-zinc-600">https://cdn.example.com/videos/corrupt.mp4</span> to simulate failure path.
-            </p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1 border-t border-zinc-100">
+            <label className="flex items-center gap-2 text-xs font-semibold text-zinc-700 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={autoStart}
+                onChange={(e) => setAutoStart(e.target.checked)}
+                className="h-4 w-4 rounded-md border-zinc-300 text-indigo-600 focus:ring-indigo-500/20 accent-indigo-600"
+              />
+              <span>Auto-start encoding and view live progress immediately</span>
+            </label>
+
             <button
               type="submit"
               disabled={isPending}

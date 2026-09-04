@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useCallback } from "react";
+import { use, useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { jobKeys, useJob, useStartRun } from "@/lib/client/hooks";
@@ -28,14 +28,23 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
   const effectiveRunId = activeRunId ?? job?.latestRunId ?? null;
   const polling = useRunPolling(effectiveRunId, handleFinished);
 
-  const handleStartRun = async () => {
+  const handleStartRun = useCallback(async () => {
     try {
       const res = await startRun.mutateAsync();
       setActiveRunId(res.runId);
     } catch {
       // Handled by mutation state
     }
-  };
+  }, [startRun]);
+
+  // Auto-start if requested from the create form
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("autostart") === "1" && job && !job.latestRunId && !activeRunId && !startRun.isPending) {
+      void handleStartRun();
+    }
+  }, [job, activeRunId, startRun.isPending, handleStartRun]);
 
   if (jobQuery.isLoading) {
     return (
