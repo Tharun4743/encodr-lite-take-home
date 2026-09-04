@@ -46,10 +46,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          {/* Section 1: MAIN NAVIGATION */}
-          <div className="mb-4">
+          {/* Section 1: PIPELINES */}
+          <div className="mb-5">
             <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-              Overview
+              Pipelines
             </p>
             <nav className="space-y-1">
               <Link
@@ -70,16 +70,62 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
             </nav>
           </div>
+
+          {/* Section 2: CLUSTER & ENGINE STATUS */}
+          <div className="mb-5">
+            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+              Engine Status
+            </p>
+            <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50/70 p-3 space-y-2.5">
+              <div className="flex items-center justify-between text-xs">
+                <span className="flex items-center gap-2 font-semibold text-zinc-700">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  Transcoder Engine
+                </span>
+                <span className="text-[10px] font-bold font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-md">
+                  ONLINE
+                </span>
+              </div>
+              <div className="border-t border-zinc-200/60 pt-2 text-[11px] text-zinc-500 space-y-1">
+                <div className="flex justify-between">
+                  <span>Target Codecs:</span>
+                  <span className="font-mono font-semibold text-zinc-700">H.264 / AAC</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Output Formats:</span>
+                  <span className="font-mono font-semibold text-zinc-700">1080p, 720p, 480p</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 3: QUICK REFERENCES */}
+          <div className="mb-4">
+            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+              Reference
+            </p>
+            <div className="space-y-1 text-xs font-medium text-zinc-600">
+              <div className="px-3 py-2 rounded-xl bg-white border border-zinc-200/60 text-[11px] text-zinc-500">
+                <p className="font-bold text-zinc-700 mb-0.5">Deterministic Simulation</p>
+                <p className="text-[10px] text-zinc-400">0s Queue → 2s Download → 6s Transcode → 12s Complete</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* User Profile & Logout Area */}
-        <div className="border-t border-zinc-100 bg-white p-3">
-          <div className="mb-2 flex items-center gap-2.5 rounded-xl bg-zinc-50 p-2.5">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-xs font-bold text-white shadow-xs">
+        <div className="border-t border-zinc-200/80 bg-white p-3">
+          <div className="mb-2 flex items-center gap-2.5 rounded-xl bg-zinc-50 p-2.5 border border-zinc-200/60">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-xs font-bold text-white shadow-xs">
               {user.name ? user.name.slice(0, 2).toUpperCase() : "DU"}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-bold text-zinc-900">{user.name || "Demo User"}</p>
+              <div className="flex items-center gap-1.5">
+                <p className="truncate text-xs font-bold text-zinc-900">{user.name || "Demo User"}</p>
+              </div>
               <p className="truncate text-[10px] text-zinc-500">{user.email}</p>
             </div>
           </div>
