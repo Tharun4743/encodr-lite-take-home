@@ -190,14 +190,16 @@ flowchart TD
 
 ---
 
-## 2. Candidate Evaluation Write-Up (Per BRIEF.md Section 6)
+## 2. Evaluation Criteria & Candidate Write-Up
 
-### 1. What's Working
+### 1. Which tasks you completed and anything that is incomplete
 
-Every single one of the 6 core tasks plus architectural stretch goals has been fully implemented, strictly typed with zero `any`, and verified via automated tests:
+**Status: All 6 core tasks completed. 0 tasks incomplete.**
+
+Every single task outlined in `BRIEF.md` plus performance and UX enhancements has been fully implemented, strictly typed with zero `any`, and verified with 24 automated tests:
 
 - **Task 1 — Source-URL Validation (`lib/schemas.ts`)**:
-  - Implemented `sourceUrlSchema` using custom Zod `.refine()` checks.
+  - Implemented `sourceUrlSchema` using custom Zod `.refine()` validation.
   - Enforces valid URL parsing via `new URL(str)`, restricts protocols strictly to `http:` and `https:`, and validates non-empty paths (`pathname.replace(/^\/+|\/+$/g, '').length > 0`).
   - Shared across both frontend (React Hook Form instant client feedback) and backend (`POST /api/jobs` request validation).
 - **Task 2 — Jobs API Routes (`app/api/jobs/route.ts`)**:
@@ -223,9 +225,9 @@ Every single one of the 6 core tasks plus architectural stretch goals has been f
 
 ---
 
-### 2. How to See the Failure Path
+### 2. How to test the failure path using the corrupt URL
 
-To verify the error handling and retry mechanisms:
+To test the error handling and retry mechanisms:
 
 1. Sign in to the dashboard (`demo@encodr.dev` / `password123`).
 2. On the **Jobs** page (`/jobs`), in the **New encode job** form:
@@ -249,7 +251,7 @@ To verify the error handling and retry mechanisms:
 
 ---
 
-### 3. Decisions & Assumptions Made
+### 3. Key implementation decisions and assumptions
 
 1. **Explicit State Modeling on Job Detail Page:**
    - Avoided multiple decoupled booleans (e.g. `isStarted`, `isRunning`, `isDone`, `isError`) which often result in impossible or flashing UI states.
@@ -267,7 +269,7 @@ To verify the error handling and retry mechanisms:
 
 ---
 
-### 4. What Was Hardest & How Resolved
+### 4. What you found challenging and how you approached it
 
 - **Precision at State Machine Boundary Edges (TDD Approach):**
   - *Challenge:* Ensuring `computeRun` handled exact millisecond boundaries (e.g., whether `elapsed === 2000ms` is `QUEUED` or `DOWNLOADING`) without off-by-one or progression jitter.
@@ -278,7 +280,7 @@ To verify the error handling and retry mechanisms:
 
 ---
 
-### 5. What I'd Do Next (With Another Day)
+### 5. What you would improve or implement next with additional time
 
 1. **Server-Sent Events (SSE) / WebSocket Streaming:**
    - Replace 1000ms interval polling with an SSE stream (`/api/runs/:id/stream`), enabling push-based frame-accurate progress updates and eliminating redundant HTTP roundtrips.
