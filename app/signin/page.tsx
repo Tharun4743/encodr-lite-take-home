@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/lib/schemas";
 import { useAuth } from "@/lib/client/auth-context";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function SignInPage() {
   const { login, user, ready } = useAuth();
@@ -49,7 +50,10 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50/50 px-4 font-sans">
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-50/50 px-4 font-sans">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-sm">
         {/* Brand Header */}
         <div className="mb-6 text-center">
