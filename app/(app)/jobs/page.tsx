@@ -67,9 +67,9 @@ export default function JobsPage() {
   const failedJobs = jobList.filter((j) => j.status === "FAILED").length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* 1. Consistent Enterprise Page Header */}
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between animate-stagger-1">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
             Encodr / Overview
@@ -82,9 +82,9 @@ export default function JobsPage() {
       </div>
 
       {/* 2. Key Metrics Stat Cards (4-Column Enterprise Grid) */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 animate-stagger-2">
         {/* Total Jobs */}
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs flex items-center justify-between">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs flex items-center justify-between card-hover">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">Total Jobs</p>
             <p className="mt-1 text-2xl font-black tracking-tight text-zinc-900">{totalJobs}</p>
@@ -98,7 +98,7 @@ export default function JobsPage() {
         </div>
 
         {/* Completed */}
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs flex items-center justify-between">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs flex items-center justify-between card-hover">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Completed</p>
             <p className="mt-1 text-2xl font-black tracking-tight text-zinc-900">{completedJobs}</p>
@@ -111,7 +111,7 @@ export default function JobsPage() {
         </div>
 
         {/* Running / Active */}
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs flex items-center justify-between">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs flex items-center justify-between card-hover">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-wider text-amber-600">Processing</p>
             <p className="mt-1 text-2xl font-black tracking-tight text-zinc-900">{runningJobs}</p>
@@ -125,7 +125,7 @@ export default function JobsPage() {
         </div>
 
         {/* Failed */}
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs flex items-center justify-between">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs flex items-center justify-between card-hover">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-wider text-rose-600">Failed</p>
             <p className="mt-1 text-2xl font-black tracking-tight text-zinc-900">{failedJobs}</p>
@@ -141,7 +141,7 @@ export default function JobsPage() {
       </div>
 
       {/* 3. Create Encode Job Card */}
-      <section className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-xs">
+      <section className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-xs animate-stagger-3 card-hover">
         <div className="mb-4">
           <h2 className="text-base font-bold text-zinc-900">New Encode Job</h2>
           <p className="text-xs text-zinc-500 mt-0.5">Submit an HTTP(S) media source URL to create a transcoding pipeline.</p>
@@ -217,7 +217,7 @@ export default function JobsPage() {
       </section>
 
       {/* 4. Enterprise Data Table: All Jobs */}
-      <section>
+      <section className="animate-stagger-4">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-base font-bold text-zinc-900">Encoding Pipelines</h2>
           <span className="text-xs font-semibold text-zinc-400">{totalJobs} total</span>

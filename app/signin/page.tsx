@@ -50,14 +50,14 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-50/50 px-4 font-sans">
-      <div className="absolute top-4 left-4">
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-50/50 px-4 font-sans animate-fade-in">
+      <div className="absolute top-4 left-4 animate-stagger-1">
         <ThemeToggle />
       </div>
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-sm animate-page-enter">
         {/* Brand Header */}
-        <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 font-black text-white shadow-xs">
+        <div className="mb-6 text-center animate-stagger-1">
+          <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 font-black text-white shadow-xs transition-transform duration-300 hover:scale-105">
             <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
@@ -67,7 +67,7 @@ export default function SignInPage() {
         </div>
 
         {/* Enterprise Login Card */}
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-xs">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-xs animate-stagger-2 card-hover">
           <form onSubmit={onSubmit} className="space-y-4" noValidate>
             <div>
               <label htmlFor="email" className="mb-1 block text-xs font-bold text-zinc-700 uppercase tracking-wider">
@@ -116,7 +116,7 @@ export default function SignInPage() {
         </div>
 
         {/* 1-Click Demo Login Action Card */}
-        <div className="mt-4 rounded-2xl border border-zinc-200/80 bg-white p-4 text-center shadow-xs">
+        <div className="mt-4 rounded-2xl border border-zinc-200/80 bg-white p-4 text-center shadow-xs animate-stagger-3 card-hover">
           <p className="text-[11px] font-medium text-zinc-500 mb-2">
             Evaluating the platform? Use the pre-configured credentials:
           </p>

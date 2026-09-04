@@ -77,9 +77,9 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
   const isIdle = !isRunning && !isFailed && !isCompleted && !effectiveRunId;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* 1. Header & Navigation */}
-      <div>
+      <div className="animate-stagger-1">
         <nav className="flex items-center gap-2 text-xs font-semibold text-zinc-500 mb-3" aria-label="Breadcrumb">
           <Link
             href="/jobs"
@@ -108,20 +108,20 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
       </div>
 
       {/* 2. Metadata / Stat Cards Row */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-xs">
+      <div className="grid grid-cols-3 gap-4 animate-stagger-2">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-xs card-hover">
           <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">Protocol</p>
           <p className="mt-1 text-sm font-bold text-zinc-900 font-mono">
             {job.sourceUrl.startsWith("https") ? "HTTPS (Encrypted)" : "HTTP"}
           </p>
         </div>
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-xs">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-xs card-hover">
           <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">Pipeline Status</p>
           <p className="mt-1 text-sm font-bold text-zinc-900">
             {isCompleted ? "Transcoding Done" : isFailed ? "Failed" : isRunning ? "Active" : "Awaiting Trigger"}
           </p>
         </div>
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-xs">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-xs card-hover">
           <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">Active Run</p>
           <p className="mt-1 text-sm font-bold text-zinc-900 font-mono truncate">
             {effectiveRunId ?? "None"}
@@ -131,7 +131,7 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
 
       {/* 3. IDLE STATE: Not yet started */}
       {isIdle && (
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-xs">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-xs animate-stagger-3 card-hover">
           <h2 className="text-base font-bold text-zinc-900">Ready to Encode</h2>
           <p className="mt-1 text-xs text-zinc-500">
             Click Start Encode to launch the transcoding pipeline and generate multi-bitrate renditions.
@@ -154,7 +154,7 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
 
       {/* 4. RUNNING STATE: Live Progress */}
       {isRunning && (
-        <div className="space-y-4 rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-xs">
+        <div className="space-y-4 rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-xs animate-stagger-3 card-hover">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Live Stage:</span>
@@ -184,7 +184,7 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
 
       {/* 5. FAILED STATE: Error display & Retry */}
       {isFailed && (
-        <div className="space-y-4 rounded-2xl border border-rose-200 bg-rose-50/40 p-6 shadow-xs">
+        <div className="space-y-4 rounded-2xl border border-rose-200 bg-rose-50/40 p-6 shadow-xs animate-stagger-3 card-hover">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold uppercase tracking-wider text-rose-800">Transcoding Exception</span>
@@ -225,7 +225,7 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
 
       {/* 6. COMPLETED STATE: Results & Renditions Table */}
       {isCompleted && (
-        <div className="space-y-6 rounded-2xl border border-emerald-200/80 bg-white p-6 shadow-xs">
+        <div className="space-y-6 rounded-2xl border border-emerald-200/80 bg-white p-6 shadow-xs animate-stagger-3 card-hover">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Pipeline Finished</span>
@@ -298,7 +298,7 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
 
       {/* 7. Activity Log (Terminal Card) */}
       {polling.log.length > 0 && (
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 font-mono text-xs text-zinc-300 shadow-xs">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 font-mono text-xs text-zinc-300 shadow-xs animate-stagger-4 card-hover">
           <div className="mb-3 flex items-center justify-between border-b border-zinc-800 pb-2">
             <div className="flex items-center gap-2">
               <span className="flex gap-1">

@@ -206,7 +206,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         )}
 
-        <main className="flex-1 min-w-0 p-6 md:p-8 lg:p-10 w-full max-w-7xl mx-auto">
+        <main key={pathname} className="flex-1 min-w-0 p-6 md:p-8 lg:p-10 w-full max-w-7xl mx-auto animate-page-enter">
           {children}
         </main>
       </div>
