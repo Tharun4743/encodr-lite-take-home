@@ -4,9 +4,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/client/auth-context";
+import { useJobs } from "@/lib/client/hooks";
+import { StatusBadge } from "@/components/status-badge";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, ready, logout } = useAuth();
+  const jobsQuery = useJobs();
+  const jobs = jobsQuery.data ?? [];
   const router = useRouter();
   const pathname = usePathname();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -47,7 +51,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* Section 1: MAIN NAVIGATION */}
-          <div className="mb-5">
+          <div className="mb-4">
             <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
               Pipelines
             </p>
@@ -55,64 +59,71 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <Link
                 href="/jobs"
                 className={
-                  isJobsActive
-                    ? "flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl font-semibold text-xs bg-zinc-900 text-white shadow-md shadow-zinc-900/20 transition-all"
-                    : "flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl font-semibold text-xs text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 transition-all"
+                  isJobsActive && pathname === "/jobs"
+                    ? "flex items-center justify-between w-full px-3 py-2.5 rounded-xl font-semibold text-xs bg-zinc-900 text-white shadow-md shadow-zinc-900/20 transition-all"
+                    : "flex items-center justify-between w-full px-3 py-2.5 rounded-xl font-semibold text-xs text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 transition-all"
                 }
               >
-                <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect width="7" height="9" x="3" y="3" rx="1" />
-                  <rect width="7" height="5" x="14" y="3" rx="1" />
-                  <rect width="7" height="9" x="14" y="12" rx="1" />
-                  <rect width="7" height="5" x="3" y="16" rx="1" />
-                </svg>
-                <span>Jobs Dashboard</span>
+                <div className="flex items-center gap-2.5">
+                  <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="7" height="9" x="3" y="3" rx="1" />
+                    <rect width="7" height="5" x="14" y="3" rx="1" />
+                    <rect width="7" height="9" x="14" y="12" rx="1" />
+                    <rect width="7" height="5" x="3" y="16" rx="1" />
+                  </svg>
+                  <span>Jobs Dashboard</span>
+                </div>
+                {jobs.length > 0 && (
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                    isJobsActive && pathname === "/jobs" ? "bg-zinc-800 text-zinc-300" : "bg-zinc-100 text-zinc-600"
+                  }`}>
+                    {jobs.length}
+                  </span>
+                )}
               </Link>
             </nav>
           </div>
 
-          {/* Section 2: CLUSTER & ENGINE STATUS */}
-          <div className="mb-5">
-            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-              Engine Status
-            </p>
-            <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50/70 p-3 space-y-2.5">
-              <div className="flex items-center justify-between text-xs">
-                <span className="flex items-center gap-2 font-semibold text-zinc-700">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                  Transcoder Engine
-                </span>
-                <span className="text-[10px] font-bold font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-md">
-                  ONLINE
-                </span>
-              </div>
-              <div className="border-t border-zinc-200/60 pt-2 text-[11px] text-zinc-500 space-y-1">
-                <div className="flex justify-between">
-                  <span>Target Codecs:</span>
-                  <span className="font-mono font-semibold text-zinc-700">H.264 / AAC</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Output Formats:</span>
-                  <span className="font-mono font-semibold text-zinc-700">1080p, 720p, 480p</span>
-                </div>
-              </div>
+          {/* Section 2: RECENT PIPELINES (Inspect & List Jobs) */}
+          <div className="flex-1 overflow-y-auto min-h-0 mb-3 pr-1">
+            <div className="flex items-center justify-between px-3 mb-2">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                Recent Pipelines
+              </p>
+              <span className="text-[10px] font-mono text-zinc-400 font-semibold">{jobs.length} total</span>
             </div>
-          </div>
 
-          {/* Section 3: QUICK REFERENCES */}
-          <div className="mb-4">
-            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-              Reference
-            </p>
-            <div className="space-y-1 text-xs font-medium text-zinc-600">
-              <div className="px-3 py-2 rounded-xl bg-white border border-zinc-200/60 text-[11px] text-zinc-500">
-                <p className="font-bold text-zinc-700 mb-0.5">Deterministic Simulation</p>
-                <p className="text-[10px] text-zinc-400">0s Queue → 2s Download → 6s Transcode → 12s Complete</p>
+            {jobs.length === 0 ? (
+              <div className="px-3 py-3 rounded-xl bg-zinc-50/80 border border-zinc-200/60 text-center">
+                <p className="text-[11px] font-medium text-zinc-500">No jobs created yet</p>
+                <p className="text-[10px] text-zinc-400 mt-0.5">Create your first encode on dashboard</p>
               </div>
-            </div>
+            ) : (
+              <div className="space-y-1">
+                {jobs.slice(0, 8).map((job) => {
+                  const isActive = pathname === `/jobs/${job.id}`;
+                  return (
+                    <Link
+                      key={job.id}
+                      href={`/jobs/${job.id}`}
+                      className={
+                        isActive
+                          ? "flex items-center justify-between w-full px-3 py-2 rounded-xl text-xs font-bold bg-zinc-900 text-white shadow-xs transition-all"
+                          : "flex items-center justify-between w-full px-3 py-2 rounded-xl text-xs font-medium text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 transition-all"
+                      }
+                    >
+                      <div className="min-w-0 pr-2">
+                        <p className="truncate text-xs font-bold">{job.title}</p>
+                        <p className={`truncate text-[10px] font-mono ${isActive ? "text-zinc-400" : "text-zinc-400"}`}>
+                          {job.id}
+                        </p>
+                      </div>
+                      <StatusBadge value={job.status} />
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
 
