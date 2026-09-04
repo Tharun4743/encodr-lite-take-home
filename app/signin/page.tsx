@@ -51,7 +51,7 @@ export default function SignInPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-50/50 px-4 font-sans animate-fade-in">
-      <div className="absolute top-4 left-4 animate-stagger-1">
+      <div className="absolute top-4 right-4 animate-stagger-1">
         <ThemeToggle />
       </div>
       <div className="w-full max-w-sm animate-page-enter">

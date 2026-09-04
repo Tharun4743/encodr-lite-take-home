@@ -35,20 +35,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Desktop Enterprise Sidebar */}
       <aside className="hidden w-64 shrink-0 flex-col border-r border-zinc-200/80 bg-white md:flex h-screen sticky top-0 justify-between">
         <div className="flex flex-col p-4 flex-1 min-h-0">
-          {/* Brand / Logo + Theme Toggle */}
-          <div className="mb-6 flex items-center justify-between px-1">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 font-black text-white shadow-xs">
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-              </div>
-              <div>
-                <span className="text-sm font-black tracking-tight text-zinc-900">Encodr Lite</span>
-                <p className="text-[10px] font-medium text-zinc-500">Mactores Media Platform</p>
-              </div>
+          {/* Brand / Logo */}
+          <div className="mb-6 flex items-center gap-2.5 px-1">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 font-black text-white shadow-xs">
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
             </div>
-            <ThemeToggle />
+            <div>
+              <span className="text-sm font-black tracking-tight text-zinc-900">Encodr Lite</span>
+              <p className="text-[10px] font-medium text-zinc-500">Mactores Media Platform</p>
+            </div>
           </div>
 
           {/* Section 1: MAIN NAVIGATION */}
@@ -159,6 +156,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content Viewport */}
       <div className="flex flex-1 flex-col min-w-0">
+        {/* Desktop Top Header Bar with Theme Toggle at top right */}
+        <header className="hidden md:flex h-14 items-center justify-between border-b border-zinc-200/80 bg-white px-8">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-semibold text-zinc-500">Transcoding Pipeline Engine</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+          </div>
+        </header>
+
         {/* Mobile Header */}
         <header className="flex h-14 items-center justify-between border-b border-zinc-200/80 bg-white px-4 md:hidden">
           <Link href="/jobs" className="flex items-center gap-2 font-black text-sm text-zinc-900">
