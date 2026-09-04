@@ -7,9 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/lib/schemas";
 import { useAuth } from "@/lib/client/auth-context";
 
-// PROVIDED IN FULL, and it already works. It's also your worked example for Task 4:
-// this is React Hook Form + a Zod resolver + inline field errors, exactly the pattern the
-// create-job form needs.
 export default function SignInPage() {
   const { login, user, ready } = useAuth();
   const router = useRouter();
@@ -39,55 +36,75 @@ export default function SignInPage() {
   });
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-4">
-      <h1 className="mb-1 text-2xl font-semibold">🎬 Encodr Lite</h1>
-      <p className="mb-6 text-sm text-neutral-500">Sign in to manage your encode jobs.</p>
-
-      <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium">
-            Email
-          </label>
-          <input
-            id="email"
-            {...register("email")}
-            type="email"
-            className="w-full rounded-md border border-neutral-300 px-3 py-2 text-sm"
-            autoComplete="username"
-          />
-          {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
+    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50/50 px-4 font-sans">
+      <div className="w-full max-w-sm">
+        {/* Brand Header */}
+        <div className="mb-6 text-center">
+          <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 font-black text-white shadow-xs">
+            <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-black tracking-tight text-zinc-900">Encodr Lite</h1>
+          <p className="mt-1 text-xs font-medium text-zinc-500">Sign in to access your media transcoding jobs</p>
         </div>
 
-        <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-medium">
-            Password
-          </label>
-          <input
-            id="password"
-            {...register("password")}
-            type="password"
-            className="w-full rounded-md border border-neutral-300 px-3 py-2 text-sm"
-            autoComplete="current-password"
-          />
-          {errors.password && (
-            <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>
-          )}
+        {/* Enterprise Login Card */}
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-xs">
+          <form onSubmit={onSubmit} className="space-y-4" noValidate>
+            <div>
+              <label htmlFor="email" className="mb-1 block text-xs font-bold text-zinc-700 uppercase tracking-wider">
+                Email Address
+              </label>
+              <input
+                id="email"
+                {...register("email")}
+                type="email"
+                className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2.5 text-xs font-medium text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20"
+                autoComplete="username"
+              />
+              {errors.email && <p className="mt-1 text-xs text-rose-600 font-medium">{errors.email.message}</p>}
+            </div>
+
+            <div>
+              <label htmlFor="password" className="mb-1 block text-xs font-bold text-zinc-700 uppercase tracking-wider">
+                Password
+              </label>
+              <input
+                id="password"
+                {...register("password")}
+                type="password"
+                className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2.5 text-xs font-medium text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20"
+                autoComplete="current-password"
+              />
+              {errors.password && (
+                <p className="mt-1 text-xs text-rose-600 font-medium">{errors.password.message}</p>
+              )}
+            </div>
+
+            {formError && (
+              <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs font-medium text-rose-700">
+                {formError}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs transition-all hover:bg-indigo-700 disabled:opacity-50"
+            >
+              {isSubmitting ? "Authenticating…" : "Sign In to Platform"}
+            </button>
+          </form>
         </div>
 
-        {formError && <p className="text-sm text-red-600">{formError}</p>}
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-        >
-          {isSubmitting ? "Signing in…" : "Sign in"}
-        </button>
-      </form>
-
-      <p className="mt-6 text-center text-xs text-neutral-400">
-        Demo login: demo@encodr.dev / password123
-      </p>
+        {/* Demo Credentials Pill */}
+        <div className="mt-4 rounded-xl border border-zinc-200/60 bg-zinc-100/60 p-3 text-center text-[11px] font-medium text-zinc-500">
+          <span className="font-bold text-zinc-700">Demo Account:</span>{" "}
+          <span className="font-mono text-zinc-600">demo@encodr.dev</span> / <span className="font-mono text-zinc-600">password123</span>
+        </div>
+      </div>
     </div>
   );
 }
+

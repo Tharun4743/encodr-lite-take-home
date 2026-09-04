@@ -1,41 +1,171 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/client/auth-context";
 
-// PROVIDED IN FULL. Everything under app/(app)/ is behind this guard: if there's no signed-in
-// user once hydration has finished, we send them to /signin.
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, ready, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
     if (ready && !user) router.replace("/signin");
   }, [ready, user, router]);
 
   if (!ready || !user) {
-    return <div className="p-8 text-sm text-neutral-500">Loading…</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-zinc-50 text-xs font-semibold text-zinc-500">
+        Authenticating session…
+      </div>
+    );
   }
 
+  const isJobsActive = pathname.startsWith("/jobs");
+
   return (
-    <div className="mx-auto min-h-screen max-w-3xl px-4 py-6">
-      <header className="mb-8 flex items-center justify-between border-b border-neutral-200 pb-4">
-        <Link href="/jobs" className="text-lg font-semibold">
-          🎬 Encodr Lite
-        </Link>
-        <div className="flex items-center gap-3 text-sm">
-          <span className="text-neutral-500">{user.email}</span>
+    <div className="flex min-h-screen bg-zinc-50/50 font-sans">
+      {/* Desktop Enterprise Sidebar */}
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-zinc-200/80 bg-white md:flex h-screen sticky top-0 justify-between">
+        <div className="flex flex-col p-4">
+          {/* Brand / Logo */}
+          <div className="mb-6 flex items-center gap-2.5 px-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 font-black text-white shadow-xs">
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm font-black tracking-tight text-zinc-900">Encodr Lite</span>
+                <span className="rounded-full bg-indigo-50 px-1.5 py-0.5 text-[9px] font-bold text-indigo-700 border border-indigo-200/60">SaaS</span>
+              </div>
+              <p className="text-[10px] font-medium text-zinc-500">Mactores Media Platform</p>
+            </div>
+          </div>
+
+          {/* Section 1: MAIN NAVIGATION */}
+          <div className="mb-4">
+            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+              Overview
+            </p>
+            <nav className="space-y-1">
+              <Link
+                href="/jobs"
+                className={
+                  isJobsActive
+                    ? "flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl font-semibold text-xs bg-zinc-900 text-white shadow-md shadow-zinc-900/20 transition-all"
+                    : "flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl font-semibold text-xs text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 transition-all"
+                }
+              >
+                <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="7" height="9" x="3" y="3" rx="1" />
+                  <rect width="7" height="5" x="14" y="3" rx="1" />
+                  <rect width="7" height="9" x="14" y="12" rx="1" />
+                  <rect width="7" height="5" x="3" y="16" rx="1" />
+                </svg>
+                <span>Jobs Dashboard</span>
+              </Link>
+            </nav>
+          </div>
+
+          {/* Section 2: RESOURCES */}
+          <div>
+            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+              System
+            </p>
+            <div className="space-y-1">
+              <div className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-zinc-500 bg-zinc-50/60">
+                <span className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                  API Gateway
+                </span>
+                <span className="text-[10px] text-zinc-400 font-mono">v1.0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* User Profile & Logout Area */}
+        <div className="border-t border-zinc-100 bg-white p-3">
+          <div className="mb-2 flex items-center gap-2.5 rounded-xl bg-zinc-50 p-2.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-xs font-bold text-white shadow-xs">
+              {user.name ? user.name.slice(0, 2).toUpperCase() : "DU"}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-xs font-bold text-zinc-900">{user.name || "Demo User"}</p>
+              <p className="truncate text-[10px] text-zinc-500">{user.email}</p>
+            </div>
+          </div>
+
           <button
+            type="button"
             onClick={logout}
-            className="rounded-md border border-neutral-300 px-3 py-1 hover:bg-neutral-100"
+            className="flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-zinc-600 transition-all hover:bg-rose-50 hover:text-rose-600"
           >
+            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" x2="9" y1="12" y2="12" />
+            </svg>
             Sign out
           </button>
         </div>
-      </header>
-      {children}
+      </aside>
+
+      {/* Main Content Viewport */}
+      <div className="flex flex-1 flex-col min-w-0">
+        {/* Mobile Header */}
+        <header className="flex h-14 items-center justify-between border-b border-zinc-200/80 bg-white px-4 md:hidden">
+          <Link href="/jobs" className="flex items-center gap-2 font-black text-sm text-zinc-900">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600 text-xs text-white">
+              ▶
+            </span>
+            Encodr Lite
+          </Link>
+          <button
+            type="button"
+            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            className="rounded-lg p-1.5 text-zinc-600 hover:bg-zinc-100"
+            aria-label="Toggle navigation"
+          >
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+        </header>
+
+        {mobileNavOpen && (
+          <div className="border-b border-zinc-200 bg-white p-4 md:hidden">
+            <Link
+              href="/jobs"
+              onClick={() => setMobileNavOpen(false)}
+              className="block rounded-xl bg-zinc-900 px-3 py-2 text-xs font-semibold text-white"
+            >
+              Jobs Dashboard
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileNavOpen(false);
+                logout();
+              }}
+              className="mt-2 block w-full rounded-xl bg-rose-50 px-3 py-2 text-left text-xs font-semibold text-rose-600"
+            >
+              Sign out
+            </button>
+          </div>
+        )}
+
+        <main className="flex-1 min-w-0 p-6 md:p-8 lg:p-10 max-w-5xl">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }
+
