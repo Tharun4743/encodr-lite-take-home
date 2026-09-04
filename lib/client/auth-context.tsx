@@ -12,7 +12,7 @@ import {
 import { useRouter } from "next/navigation";
 import type { User } from "@/lib/types";
 import { api, AUTH_LOGOUT_EVENT } from "@/lib/client/api";
-import { clearSession, getStoredUser, hydrate, setSession } from "@/lib/client/token-store";
+import { clearSession, getStoredUser, hydrate, setSession, updateStoredUser } from "@/lib/client/token-store";
 
 // PROVIDED IN FULL. Sign-in already works end to end — you shouldn't need to touch this file.
 // It's here as a reference for how a React context + custom hook fit together.
@@ -65,9 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser((prev) => {
       if (!prev) return null;
       const updated = { ...prev, ...data };
-      import("@/lib/client/token-store").then(({ updateStoredUser }) => {
-        updateStoredUser(updated);
-      });
+      updateStoredUser(updated);
       return updated;
     });
   }, []);
