@@ -23,6 +23,7 @@ interface AuthContextValue {
   ready: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  updateUser: (data: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -60,9 +61,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(res.user);
   }, []);
 
+  const updateUser = useCallback((data: Partial<User>) => {
+    setUser((prev) => {
+      if (!prev) return null;
+      const updated = { ...prev, ...data };
+      import("@/lib/client/token-store").then(({ updateStoredUser }) => {
+        updateStoredUser(updated);
+      });
+      return updated;
+    });
+  }, []);
+
   const value = useMemo<AuthContextValue>(
-    () => ({ user, ready, login, logout }),
-    [user, ready, login, logout],
+    () => ({ user, ready, login, logout, updateUser }),
+    [user, ready, login, logout, updateUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

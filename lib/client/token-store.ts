@@ -40,6 +40,11 @@ export function getStoredUser<T>(): T | null {
   }
 }
 
+export function updateStoredUser(updatedUser: unknown) {
+  if (!isBrowser()) return;
+  window.localStorage.setItem(USER_KEY, JSON.stringify(updatedUser));
+}
+
 export function clearSession() {
   token = null;
   if (!isBrowser()) return;
