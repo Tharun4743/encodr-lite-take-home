@@ -71,9 +71,6 @@ export default function JobsPage() {
       {/* 1. Consistent Enterprise Page Header */}
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between animate-stagger-1">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-            Encodr / Overview
-          </p>
           <h1 className="text-2xl font-black tracking-tight text-zinc-900">Jobs Dashboard</h1>
           <p className="mt-1 text-sm text-zinc-600">
             Submit media for cloud transcoding, monitor runs, and access multi-resolution renditions.

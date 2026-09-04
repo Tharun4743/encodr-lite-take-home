@@ -157,11 +157,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Main Content Viewport */}
       <div className="flex flex-1 flex-col min-w-0">
         {/* Desktop Top Header Bar with Theme Toggle at top right */}
-        <header className="hidden md:flex h-14 items-center justify-between border-b border-zinc-200/80 bg-white px-8">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-semibold text-zinc-500">Transcoding Pipeline Engine</span>
-          </div>
+        <header className="hidden md:flex h-14 items-center justify-end border-b border-zinc-200/80 bg-white px-8">
           <div className="flex items-center gap-3">
             <ThemeToggle />
           </div>
