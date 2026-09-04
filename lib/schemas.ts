@@ -6,9 +6,7 @@ import { z } from "zod";
 // Sharing them means one set of rules, and the same error messages in both places.
 
 /**
- * TASK 1 — TODO(candidate): make this a real http(s) media-URL check.
- *
- * Right now it accepts any non-empty string, which is not good enough.
+ * TASK 1: Validates that the input is a valid HTTP or HTTPS media URL with a path.
  *
  * It should ACCEPT:
  *   https://cdn.example.com/videos/clip.mp4

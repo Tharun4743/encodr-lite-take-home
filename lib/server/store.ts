@@ -25,7 +25,7 @@ export const FAIL_URL = "https://cdn.example.com/videos/corrupt.mp4";
 // ---------------------------------------------------------------------------
 
 /**
- * TODO(candidate): work out what state a run is in right now.
+ * TASK 3: Pure deterministic state machine that computes run state based on elapsed time.
  *
  * There are no timers on the server. Instead, a run's state is a PURE FUNCTION of how much time
  * has passed since it started: `elapsed = now - record.startedAt`. Same inputs, same output, every
