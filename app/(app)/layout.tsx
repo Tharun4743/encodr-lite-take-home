@@ -70,22 +70,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
             </nav>
           </div>
-
-          {/* Section 2: RESOURCES */}
-          <div>
-            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-              System
-            </p>
-            <div className="space-y-1">
-              <div className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-zinc-500 bg-zinc-50/60">
-                <span className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                  API Gateway
-                </span>
-                <span className="text-[10px] text-zinc-400 font-mono">v1.0</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* User Profile & Logout Area */}
