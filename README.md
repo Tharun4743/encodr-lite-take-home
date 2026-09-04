@@ -88,30 +88,107 @@ If you're not sure where to start:
 
 # Your write-up
 
-### What's working
+### End-to-End System Architecture
 
-All six tasks specified in `BRIEF.md` are complete, strictly typed, and covered by automated tests:
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Client Browser (React + React Query)
+    participant Auth as Auth Route Guard / withAuth()
+    participant API as Next.js Route Handlers
+    participant Zod as Shared Zod Schemas (lib/schemas.ts)
+    participant Store as In-Memory Store (lib/server/store.ts)
+    participant Machine as computeRun() State Machine
+
+    Note over User,Auth: Phase 1: Authentication & Session
+    User->>Auth: POST /api/auth/login { email, password }
+    Auth-->>User: Set-Cookie: encodr_session=... (HTTP 200)
+
+    Note over User,Store: Phase 2: Create Encode Job
+    User->>Zod: React Hook Form client-side validation
+    User->>API: POST /api/jobs { sourceUrl, title }
+    API->>Auth: withAuth() session token verification
+    API->>Zod: createJobSchema.safeParse(body)
+    alt Invalid Input (e.g. ftp:// or empty path)
+        Zod-->>API: ZodError (field issues)
+        API-->>User: HTTP 422 Unprocessable Entity { error, fieldErrors }
+    else Valid Media URL
+        API->>Store: createJob({ sourceUrl, title })
+        Store-->>API: Job { id: "j_xxx", status: "NEW", ... }
+        API-->>User: HTTP 201 Created (JSON)
+        User->>User: React Query invalidates ["jobs"] & updates UI table instantly
+    end
+
+    Note over User,Machine: Phase 3: Start Transcoding Run
+    User->>API: POST /api/runs { jobId: "j_xxx" }
+    API->>Store: startRun(jobId) -> records startedAt = Date.now()
+    Store-->>API: RunRecord { id: "r_xxx", startedAt, ... }
+    API-->>User: HTTP 201 { runId: "r_xxx" }
+
+    Note over User,Machine: Phase 4: Live Polling Loop (~1s interval)
+    loop Every 1000ms (pauses if tab hidden)
+        User->>API: GET /api/runs/r_xxx
+        API->>Store: getRun("r_xxx")
+        Store->>Machine: computeRun(record, now = Date.now())
+        Note over Machine: elapsed = now - record.startedAt<br/>0–2s: QUEUED (0-16%)<br/>2–6s: DOWNLOADING (17-49%)<br/>6–12s: TRANSCODING (50-99%)<br/>≥12s: COMPLETED (100%)<br/>(or ≥8s FAILED if corrupt.mp4)
+        Machine-->>Store: EncodeRun snapshot
+        Store-->>API: EncodeRun
+        API-->>User: HTTP 200 EncodeRun JSON
+        User->>User: Update progress bar, stage badge, and activity stream log
+    end
+
+    Note over User,Machine: Phase 5: Terminal State Resolution
+    alt Stage is COMPLETED
+        User->>User: Stop polling timer, unfreeze progress at 100%, render Renditions Table
+    else Stage is FAILED (corrupt.mp4 @ 8s)
+        User->>User: Stop polling timer, freeze progress at 67%, render Error Banner & Retry Button
+    end
+```
+
+---
+
+### State Machine Timeline Architecture
+
+```mermaid
+stateDiagram-v2
+    [*] --> QUEUED : Start Encode (0s)
+    QUEUED --> DOWNLOADING : elapsed >= 2s (2000ms)
+    DOWNLOADING --> TRANSCODING : elapsed >= 6s (6000ms)
+    TRANSCODING --> COMPLETED : elapsed >= 12s (12000ms)
+    TRANSCODING --> FAILED : sourceUrl === corrupt.mp4 AND elapsed >= 8s (8000ms)
+    
+    COMPLETED --> [*] : Stop Polling & Show Renditions
+    FAILED --> [*] : Stop Polling & Show Retry Action
+```
+
+---
+
+### What I Built & How It Works
+
+All six core tasks from `BRIEF.md` have been implemented, strictly typed with zero `any`, and verified with automated tests:
 
 1. **Task 1 — Source-URL Validation (`lib/schemas.ts`)**:
-   - `sourceUrlSchema` validates that inputs are valid URLs using `new URL()`, restricted strictly to `http:` and `https:` protocols, and contain a non-empty pathname.
-   - Specific user-friendly error messages are provided for empty inputs, malformed URLs, unsupported protocols, and bare hostnames without paths.
-2. **Task 2 — Jobs API Handlers (`app/api/jobs/route.ts`)**:
-   - Authenticated `GET /api/jobs` returns the list of jobs ordered by creation date with derived statuses.
-   - Authenticated `POST /api/jobs` safely validates the payload with `createJobSchema` and returns `422` with structured `fieldErrors` on validation failure, or `201` with the created job on success.
-3. **Task 3 — Run State Machine (`lib/server/store.ts` → `computeRun()`)**:
-   - Implemented as a pure deterministic function of elapsed time `now - startedAt` according to `TIMELINE` constants.
-   - Accurately transitions through `QUEUED` (0–2s), `DOWNLOADING` (2–6s), `TRANSCODING` (6–12s), and `COMPLETED` (12s+), returning output renditions via `makeResult()`.
-   - Special corrupt URL handling: immediately transitions to `FAILED` at $\ge$8000ms with frozen progress percentage and descriptive error.
-4. **Task 4 — Create-Job Form (`app/(app)/jobs/page.tsx`, `lib/client/hooks.ts`)**:
-   - Form built using React Hook Form + `@hookform/resolvers/zod` with instant inline field validation.
-   - Uses `useCreateJob` mutation to POST data and automatically invalidates the `jobs` query cache on success without page reload.
-   - Maps server 422 `fieldErrors` back onto matching form fields using `setError`.
-5. **Task 5 — Live Progress & Job Detail Screen (`lib/client/use-run-polling.ts`, `app/(app)/jobs/[id]/page.tsx`)**:
-   - `useRunPolling` polls `/api/runs/:id` every 1000ms with strict cleanup on component unmount and `runId` changes. Polling stops automatically upon reaching `COMPLETED` or `FAILED`.
-   - Clean state machine on detail screen modeling mutually exclusive states: `idle`, `running`, `failed`, and `completed`.
-   - Displays live progress bar, active stage badge, human-readable activity log, corrupt failure banner with retry action, and output renditions table.
+   - Built a chained Zod schema (`sourceUrlSchema`) that validates URL syntax with `try { new URL() }`, enforces protocol restriction to `http:` or `https:`, and checks for non-empty pathnames (`url.pathname.replace(/^\/+|\/+$/g, "").length > 0`).
+   - Shared between React Hook Form client resolvers (instant inline errors) and backend API route handlers (zero browser trust).
+2. **Task 2 — Jobs API Route Handlers (`app/api/jobs/route.ts`)**:
+   - `GET /api/jobs`: Authenticated route returning jobs sorted by creation date with dynamic statuses derived from `latestRunId`.
+   - `POST /api/jobs`: Validates incoming payload with `createJobSchema`. Returns structured `422 Unprocessable Entity` with `fieldErrors` on bad data, or creates the job in memory and returns `201 Created`.
+3. **Task 3 — Deterministic Run State Machine (`lib/server/store.ts` → `computeRun()`)**:
+   - Pure function of elapsed time: `elapsed = now - record.startedAt`. Zero timers on server.
+   - Calculates progress percentage across the 12-second timeline, progressing through `QUEUED` (0-2s), `DOWNLOADING` (2-6s), `TRANSCODING` (6-12s), and `COMPLETED` (12s+ with 1080p, 720p, 480p output renditions).
+   - Special failure trigger: When `sourceUrl` matches `FAIL_URL` (`https://cdn.example.com/videos/corrupt.mp4`), it transitions to `FAILED` at $\ge 8\text{s}$ with frozen progress (67%) and container corruption error message.
+4. **Task 4 — Create-Job Form & Optimistic Cache Invalidation (`app/(app)/jobs/page.tsx`, `lib/client/hooks.ts`)**:
+   - Integrated form using React Hook Form + Zod resolver + `useCreateJob` mutation.
+   - On success, invalidates the `["jobs"]` React Query cache so the new job appears in the pipeline table immediately without a full page refresh.
+   - Maps server 422 `fieldErrors` directly to matching form inputs using `setError`.
+5. **Task 5 — Live Progress Engine & Job Detail UI (`lib/client/use-run-polling.ts`, `app/(app)/jobs/[id]/page.tsx`)**:
+   - Custom `useRunPolling` hook that queries `/api/runs/:id` every 1000ms.
+   - Automatically pauses polling when the browser tab is hidden (`document.visibilityState === "hidden"`).
+   - Stops polling immediately upon reaching terminal stages (`COMPLETED` or `FAILED`).
+   - Strict `useEffect` cleanup hook that halts interval timers and sets a `cancelled` boolean guard to prevent state mutations on unmounted components.
+   - Detail view cleanly models mutually exclusive states (`idle`, `running`, `failed`, `completed`) with live progress bars, activity logs, failure banners, retry buttons, and output rendition tables.
 6. **Task 6 — Test Suite (`__tests__/`)**:
-   - 24 automated tests passing across `compute-run.test.ts`, `schemas.test.ts`, `jobs-api.test.ts`, and `create-job-form.test.tsx`.
+   - 24 automated tests passing across 4 suites covering state machine exact boundaries (0s, 1.999s, 2s, 5.999s, 6s, 11.999s, 12s, and 7.999s vs 8s corrupt failure), schema validation, route authorization/validation responses, and form interaction mocks.
 
 ---
 
