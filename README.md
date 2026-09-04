@@ -10,10 +10,17 @@ you're done.
 
 ## Run it
 
+### Windows Quick Start
+Simply double-click `run.bat` or run in terminal:
+```cmd
+run.bat
+```
+
+### Manual Command Line
 ```bash
 npm install
 npm run dev          # http://localhost:3000
-npm run test:run     # tests (one example test is included and passes)
+npm run test:run     # tests (24 unit and component tests)
 npm run typecheck    # tsc --noEmit
 npm run build        # production build
 ```
