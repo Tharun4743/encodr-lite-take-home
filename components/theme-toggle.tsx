@@ -16,7 +16,11 @@ export function ThemeToggle() {
       } else {
         document.documentElement.classList.remove("dark");
       }
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    } else if (
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
       setTheme("dark");
       document.documentElement.classList.add("dark");
     }

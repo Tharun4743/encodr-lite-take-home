@@ -9,6 +9,7 @@ import { createJobSchema, type CreateJobInput } from "@/lib/schemas";
 import { useCreateJob, useJobs } from "@/lib/client/hooks";
 import { ApiError } from "@/lib/client/api";
 import { StatusBadge } from "@/components/status-badge";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function JobsPage() {
   const router = useRouter();
@@ -69,12 +70,15 @@ export default function JobsPage() {
   return (
     <div className="space-y-6 animate-fade-in">
       {/* 1. Consistent Enterprise Page Header */}
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between animate-stagger-1">
+      <div className="flex items-center justify-between animate-stagger-1">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-zinc-900">Jobs Dashboard</h1>
           <p className="mt-1 text-sm text-zinc-600">
             Submit media for cloud transcoding, monitor runs, and access multi-resolution renditions.
           </p>
+        </div>
+        <div className="hidden md:flex items-center">
+          <ThemeToggle />
         </div>
       </div>
 

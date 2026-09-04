@@ -127,16 +127,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         {/* User Profile & Logout Area */}
         <div className="border-t border-zinc-200/80 bg-white p-3">
-          <div className="mb-2 flex items-center gap-2.5 rounded-xl bg-zinc-50 p-2.5 border border-zinc-200/60">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-xs font-bold text-white shadow-xs">
-              {user.name ? user.name.slice(0, 2).toUpperCase() : "DU"}
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5">
-                <p className="truncate text-xs font-bold text-zinc-900">{user.name || "Demo User"}</p>
+          <div className="mb-2 flex items-center justify-between gap-2 rounded-xl bg-zinc-50 p-2.5 border border-zinc-200/60">
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-xs font-bold text-white shadow-xs">
+                {user.name ? user.name.slice(0, 2).toUpperCase() : "DU"}
               </div>
-              <p className="truncate text-[10px] text-zinc-500">{user.email}</p>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-xs font-bold text-zinc-900">{user.name || "Demo User"}</p>
+                <p className="truncate text-[10px] text-zinc-500">{user.email}</p>
+              </div>
             </div>
+            <ThemeToggle />
           </div>
 
           <button
@@ -156,13 +157,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content Viewport */}
       <div className="flex flex-1 flex-col min-w-0">
-        {/* Desktop Top Header Bar with Theme Toggle at top right */}
-        <header className="hidden md:flex h-14 items-center justify-end border-b border-zinc-200/80 bg-white px-8">
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-          </div>
-        </header>
-
         {/* Mobile Header */}
         <header className="flex h-14 items-center justify-between border-b border-zinc-200/80 bg-white px-4 md:hidden">
           <Link href="/jobs" className="flex items-center gap-2 font-black text-sm text-zinc-900">
@@ -190,6 +184,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         {mobileNavOpen && (
           <div className="border-b border-zinc-200 bg-white p-4 md:hidden">
+            <div className="flex items-center justify-between mb-3 pb-2 border-b border-zinc-100">
+              <span className="text-xs font-semibold text-zinc-500">Theme</span>
+              <ThemeToggle />
+            </div>
             <Link
               href="/jobs"
               onClick={() => setMobileNavOpen(false)}

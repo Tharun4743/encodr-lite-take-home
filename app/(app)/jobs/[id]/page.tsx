@@ -7,6 +7,7 @@ import { jobKeys, useJob, useStartRun } from "@/lib/client/hooks";
 import { useRunPolling } from "@/lib/client/use-run-polling";
 import { StatusBadge } from "@/components/status-badge";
 import { ProgressBar } from "@/components/progress-bar";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -80,21 +81,26 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
     <div className="space-y-6 animate-fade-in">
       {/* 1. Header & Navigation */}
       <div className="animate-stagger-1">
-        <nav className="flex items-center gap-2 text-xs font-semibold text-zinc-500 mb-3" aria-label="Breadcrumb">
-          <Link
-            href="/jobs"
-            className="hover:text-zinc-900 transition-colors flex items-center gap-1 font-bold text-zinc-600"
-          >
-            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-            Jobs Dashboard
-          </Link>
-          <span className="text-zinc-300">/</span>
-          <span className="font-mono text-zinc-800 text-[11px] font-bold bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200/60">
-            {job.id}
-          </span>
-        </nav>
+        <div className="flex items-center justify-between mb-3">
+          <nav className="flex items-center gap-2 text-xs font-semibold text-zinc-500" aria-label="Breadcrumb">
+            <Link
+              href="/jobs"
+              className="hover:text-zinc-900 transition-colors flex items-center gap-1 font-bold text-zinc-600"
+            >
+              <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Jobs Dashboard
+            </Link>
+            <span className="text-zinc-300">/</span>
+            <span className="font-mono text-zinc-800 text-[11px] font-bold bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200/60">
+              {job.id}
+            </span>
+          </nav>
+          <div className="hidden md:flex items-center">
+            <ThemeToggle />
+          </div>
+        </div>
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-zinc-200/80 pb-4">
           <div className="min-w-0">
