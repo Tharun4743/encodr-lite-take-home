@@ -152,16 +152,24 @@ The most nuanced part was ensuring that `useRunPolling` handles all asynchronous
 
 ---
 
-### What I'd do next
+### Stretch Goals Implemented
 
-1. **Visibility API Integration:** Pause polling intervals when the user switches browser tabs (`document.visibilityState === "hidden"`) and resume on return to conserve network bandwidth.
-2. **Smooth Progress Interpolation:** Add client-side animation/interpolation to smoothly animate the progress bar between the 1-second polling intervals.
-3. **Relative Timestamps:** Add relative time formatting (e.g. "created 3 minutes ago") to the job list items.
-4. **Accessibility (a11y) Pass:** Add `aria-live="polite"` status announcements for screen readers when run stages change.
+- **Visibility API Integration (`document.visibilityState`):** `useRunPolling` checks tab visibility on each tick and pauses polling when the tab is hidden to save battery and network bandwidth.
+- **Accessible & Responsive Enterprise UI:** Modern, light-theme enterprise dashboard with clean breadcrumbs, responsive 16:9 layout scaling, ARIA progress bar attributes, and full keyboard navigation.
+- **Instant Mutation Updates:** React Query optimistic cache invalidation (`queryClient.invalidateQueries`) instantly displays newly created jobs without page reload.
+
+---
+
+### What I'd do next (with another day)
+
+1. **Server-Sent Events (SSE) / WebSockets:** Replace 1-second polling with real-time SSE stream for push-based stage transitions and lower network overhead.
+2. **Persistent Database Storage:** Introduce a persistent data layer (PostgreSQL + Prisma / Drizzle) with migrations and job history retention.
+3. **In-Browser Video Rendition Player:** Add an embedded HTML5 video player on the completed detail page allowing users to preview and switch between 1080p, 720p, and 480p renditions.
+4. **Batch Processing & Cancel / Pause Action:** Allow multi-URL batch submissions and provide an endpoint to cancel or pause active encoding runs.
 
 ---
 
 ### Time spent
 
-Approximately **3.5 focused hours** across schema validation, route handlers, state machine logic, polling & UI implementation, comprehensive test suite writing, and documentation.
+Approximately **3.5 focused hours** across schema validation, route handlers, deterministic state machine logic, polling & UI implementation, comprehensive test suite writing, and documentation.
 
