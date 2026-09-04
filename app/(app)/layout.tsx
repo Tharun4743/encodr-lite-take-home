@@ -23,7 +23,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     );
   }
 
-  const isJobsActive = pathname.startsWith("/jobs");
+  const isDashboardActive = pathname === "/jobs";
+  const isJobDetailActive = pathname.startsWith("/jobs/") && pathname !== "/jobs";
+  const currentJobId = isJobDetailActive ? pathname.split("/jobs/")[1] : null;
 
   return (
     <div className="flex min-h-screen bg-zinc-50/50 font-sans">
@@ -55,7 +57,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <Link
                 href="/jobs"
                 className={
-                  isJobsActive
+                  isDashboardActive
                     ? "flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl font-semibold text-xs bg-zinc-900 text-white shadow-md shadow-zinc-900/20 transition-all"
                     : "flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl font-semibold text-xs text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 transition-all"
                 }
@@ -68,6 +70,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </svg>
                 <span>Jobs Dashboard</span>
               </Link>
+
+              {isJobDetailActive && currentJobId && (
+                <div className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl font-semibold text-xs bg-zinc-900 text-white shadow-md shadow-zinc-900/20 transition-all">
+                  <svg className="h-4 w-4 shrink-0 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <polygon points="10 8 16 12 10 16 10 8" />
+                  </svg>
+                  <span className="truncate">Active Job ({currentJobId.slice(0, 8)})</span>
+                </div>
+              )}
             </nav>
           </div>
 
