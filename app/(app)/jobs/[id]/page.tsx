@@ -307,10 +307,10 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 font-mono text-xs text-zinc-300 shadow-xs animate-stagger-4 card-hover">
           <div className="mb-3 flex items-center justify-between border-b border-zinc-800 pb-2">
             <div className="flex items-center gap-2">
-              <span className="flex gap-1">
-                <span className="h-2 w-2 rounded-full bg-zinc-700" />
-                <span className="h-2 w-2 rounded-full bg-zinc-700" />
-                <span className="h-2 w-2 rounded-full bg-zinc-700" />
+              <span className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
               </span>
               <span className="text-[11px] font-bold text-zinc-400">Activity Stream</span>
             </div>
