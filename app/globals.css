@@ -5,16 +5,24 @@
 }
 
 body {
-  @apply bg-zinc-50/50 text-zinc-900 antialiased font-sans;
+  @apply bg-zinc-50/50 text-zinc-900 antialiased font-sans transition-colors duration-150;
 }
 
 html.dark body {
-  background-color: #09090b;
-  color: #f4f4f5;
+  background-color: #09090b !important;
+  color: #f4f4f5 !important;
+}
+
+html.dark aside,
+html.dark header,
+html.dark nav {
+  background-color: #121215 !important;
+  border-color: #27272a !important;
 }
 
 html.dark .bg-white {
   background-color: #18181b !important;
+  border-color: #27272a !important;
 }
 
 html.dark .bg-zinc-50,
@@ -23,12 +31,14 @@ html.dark .bg-zinc-50\/60,
 html.dark .bg-zinc-50\/70,
 html.dark .bg-zinc-50\/80 {
   background-color: #121215 !important;
+  border-color: #27272a !important;
 }
 
 html.dark .bg-zinc-100,
 html.dark .bg-zinc-100\/60,
 html.dark .bg-zinc-100\/80 {
   background-color: #27272a !important;
+  border-color: #3f3f46 !important;
 }
 
 html.dark .border-zinc-200,
@@ -53,10 +63,13 @@ html.dark .text-zinc-400 {
   color: #a1a1aa !important;
 }
 
-html.dark input {
+html.dark input,
+html.dark select,
+html.dark textarea {
   background-color: #18181b !important;
   color: #fafafa !important;
   border-color: #27272a !important;
 }
+
 
 
