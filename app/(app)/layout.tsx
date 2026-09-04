@@ -36,7 +36,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <aside className="hidden w-64 shrink-0 flex-col border-r border-zinc-200/80 bg-white md:flex h-screen sticky top-0 justify-between">
         <div className="flex flex-col p-4 flex-1 min-h-0">
           {/* Brand / Logo + Theme Toggle */}
-          <div className="mb-6 flex items-center justify-between px-2">
+          <div className="mb-6 flex items-center justify-between px-1">
             <div className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 font-black text-white shadow-xs">
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -44,10 +44,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </svg>
               </div>
               <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-black tracking-tight text-zinc-900">Encodr Lite</span>
-                  <span className="rounded-full bg-indigo-50 px-1.5 py-0.5 text-[9px] font-bold text-indigo-700 border border-indigo-200/60">SaaS</span>
-                </div>
+                <span className="text-sm font-black tracking-tight text-zinc-900">Encodr Lite</span>
                 <p className="text-[10px] font-medium text-zinc-500">Mactores Media Platform</p>
               </div>
             </div>
@@ -170,18 +167,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </span>
             Encodr Lite
           </Link>
-          <button
-            type="button"
-            onClick={() => setMobileNavOpen(!mobileNavOpen)}
-            className="rounded-lg p-1.5 text-zinc-600 hover:bg-zinc-100"
-            aria-label="Toggle navigation"
-          >
-            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen(!mobileNavOpen)}
+              className="rounded-lg p-1.5 text-zinc-600 hover:bg-zinc-100"
+              aria-label="Toggle navigation"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+          </div>
         </header>
 
         {mobileNavOpen && (
