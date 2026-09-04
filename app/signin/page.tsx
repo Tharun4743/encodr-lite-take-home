@@ -15,10 +15,11 @@ export default function SignInPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "demo@encodr.dev", password: "" },
+    defaultValues: { email: "demo@encodr.dev", password: "password123" },
   });
 
   useEffect(() => {
@@ -34,6 +35,18 @@ export default function SignInPage() {
       setFormError(e instanceof Error ? e.message : "Login failed");
     }
   });
+
+  const handleDemoLogin = async () => {
+    setValue("email", "demo@encodr.dev");
+    setValue("password", "password123");
+    setFormError(null);
+    try {
+      await login("demo@encodr.dev", "password123");
+      router.replace("/jobs");
+    } catch (e) {
+      setFormError(e instanceof Error ? e.message : "Demo login failed");
+    }
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50/50 px-4 font-sans">
@@ -98,10 +111,22 @@ export default function SignInPage() {
           </form>
         </div>
 
-        {/* Demo Credentials Pill */}
-        <div className="mt-4 rounded-xl border border-zinc-200/60 bg-zinc-100/60 p-3 text-center text-[11px] font-medium text-zinc-500">
-          <span className="font-bold text-zinc-700">Demo Account:</span>{" "}
-          <span className="font-mono text-zinc-600">demo@encodr.dev</span> / <span className="font-mono text-zinc-600">password123</span>
+        {/* 1-Click Demo Login Action Card */}
+        <div className="mt-4 rounded-2xl border border-zinc-200/80 bg-white p-4 text-center shadow-xs">
+          <p className="text-[11px] font-medium text-zinc-500 mb-2">
+            Evaluating the platform? Use the pre-configured credentials:
+          </p>
+          <button
+            type="button"
+            onClick={handleDemoLogin}
+            disabled={isSubmitting}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50/80 px-3 py-2 text-xs font-bold text-indigo-700 transition-all hover:bg-indigo-100/80 hover:text-indigo-800 disabled:opacity-50"
+          >
+            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+            1-Click Sign In as Demo User
+          </button>
         </div>
       </div>
     </div>
