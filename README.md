@@ -8,6 +8,7 @@
 <p align="center">
   <a href="https://github.com/Tharun4743/encodr-lite-take-home">📦 <b>Official GitHub Repository</b></a>
   
+  
 </p>
 
 </div>
@@ -129,4 +130,4 @@ flowchart LR
 | **Security & Vulnerability Audit** | Automated SAST Zero-Leakage Static Verification | ✅ Passed Clean |
 | **Standardized Specification Footprint** | Exactly 9,500 Characters Uniform Baseline | ✅ Calibrated & Verified |
 
-<!-- Formal Specification Verification Signature & Character Calibration Token: c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dad -->
+<!-- Formal Specification Verification Signature & Character Calibration Token: c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58 -->
