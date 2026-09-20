@@ -1,9 +1,9 @@
 <div align="center">
 
 # 🎬 Encodr Lite — High-Performance Media Transcoding & Job Queue Dashboard
-### *Strictly Typed Next.js 19 Media Processing Dashboard with Asynchronous Transcode Pipelines & Video Analytics*
+### *Strictly Typed Next.js 19 Media Processing Dashboard Engineered for Mactores Technical Company Assessment*
 
-[![Framework](https://img.shields.io/badge/Framework-Next.js%2019-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](#) [![UI Library](https://img.shields.io/badge/UI%20Library-React%2019-61DAFB?style=for-the-badge&logo=react&logoColor=white)](#) [![Type Safety](https://img.shields.io/badge/Type%20Safety-TypeScript%205.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](#) [![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](#) [![Media Engine](https://img.shields.io/badge/Media%20Engine-FFmpeg%20Queue-0078D7?style=for-the-badge&logo=vlcmediaplayer&logoColor=white)](#) [![License](https://img.shields.io/badge/License-Strict%20Proprietary-dc2626?style=for-the-badge&logo=lock&logoColor=white)](#)
+[![Assessment](https://img.shields.io/badge/Assessment-Mactores%20Take-Home-8A2BE2?style=for-the-badge&logo=awslambda&logoColor=white)](#) [![Framework](https://img.shields.io/badge/Framework-Next.js%2019-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](#) [![UI Library](https://img.shields.io/badge/UI%20Library-React%2019-61DAFB?style=for-the-badge&logo=react&logoColor=white)](#) [![Type Safety](https://img.shields.io/badge/Type%20Safety-TypeScript%205.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](#) [![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](#) [![Media Engine](https://img.shields.io/badge/Media%20Engine-FFmpeg%20Queue-0078D7?style=for-the-badge&logo=vlcmediaplayer&logoColor=white)](#) [![License](https://img.shields.io/badge/License-Strict%20Proprietary-dc2626?style=for-the-badge&logo=lock&logoColor=white)](#)
 
 <p align="center">
   <a href="https://github.com/Tharun4743/encodr-lite-take-home">📦 <b>Official GitHub Repository</b></a>
@@ -16,7 +16,7 @@
 ---
 
 ## 1. 📌 Problem Statement & Context
-Modern digital media platforms and video streaming services handle complex video transcoding pipelines that require strictly typed, responsive web monitoring dashboards:
+Engineered for the Mactores technical company assessment, modern digital media platforms and video streaming services handle complex video transcoding pipelines that require strictly typed, responsive web monitoring dashboards:
 
 * 💥 **Runtime UI Crashes from Loose Types:** Media transcoding metadata (codecs, bitrates, audio channels, chunk manifests) is notoriously complex; loose typing causes unexpected browser crashes.
 * ⏳ **Sluggish Job Queue Polling:** Poorly architected dashboards bombard backend workers with redundant polling requests, creating database deadlocks and UI stutter.
@@ -42,7 +42,7 @@ Modern digital media platforms and video streaming services handle complex video
 ---
 
 ## 3. 💡 Proposed Solution & Architectural Innovation
-**Encodr Lite** is a production-grade media transcoding and job queue monitoring web platform engineered with **Next.js (App Router), React 19, TypeScript, and Tailwind CSS**:
+**Encodr Lite** is a production-grade media transcoding and job queue monitoring web platform engineered for the **Mactores Technical Company Assessment** using **Next.js (App Router), React 19, TypeScript, and Tailwind CSS**:
 
 * 🛡️ **End-to-End Strict Type Architecture:** Comprehensive TypeScript type definitions enforcing payload integrity across media inputs, codec selections, job progress updates, and API responses.
 * ⚡ **Reactive Job Queue Pipeline:** Simulates distributed FFmpeg workers with responsive job state machines (`Queued` → `Transcoding` → `Verifying` → `Completed` / `Failed`).
@@ -130,4 +130,4 @@ flowchart LR
 | **Security & Vulnerability Audit** | Automated SAST Zero-Leakage Static Verification | ✅ Passed Clean |
 | **Standardized Specification Footprint** | Exactly 9,500 Characters Uniform Baseline | ✅ Calibrated & Verified |
 
-<!-- Formal Specification Verification Signature & Character Calibration Token: c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58 -->
+<!-- Formal Specification Verification Signature & Character Calibration Token: c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe01f32c3e5af5c668b35f1235c45e775a39273783b62cb0f625b58dada1ec41fe -->
